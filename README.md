@@ -36,3 +36,33 @@ selector/
 
 object_detection/
   Stage5_Detection.ipynb          Object-detection evaluation script
+
+
+## Reconstructing the image set
+
+1. Obtain the Raindrop Clarity dataset (daytime training split, `DayRainDrop_Train`)
+   from its original source.
+2. Use `dataset_construction/selected_500_images_FINAL.txt` to select the 500 image
+   pairs (`Drop/<id>` = degraded input, `Clear/<id>` = ground truth).
+
+## Control experiment
+
+The control experiment uses 500 images rejected during long-streak benchmark curation
+because they did not contain long water streaks. The images come from the same daytime
+split as the long-streak benchmark.
+
+Use `control_experiment/selected_500_control_images.txt` with
+`control_experiment/build_control_dataset.py` to reconstruct the paired control set.
+The same model evaluation and scoring process is then used for both image sets.
+
+## Metrics protocol
+
+PSNR and SSIM are computed on the luminance (Y) channel; LPIPS uses a VGG backbone.
+All scores are computed at a fixed 256x256 resolution using the official Raindrop
+Clarity evaluation protocol, except where noted in the paper (one model's checkpoint
+is architecturally fixed to 128x128; see the paper's discussion of this constraint).
+
+## License
+
+The code in this repository is provided for reproducibility purposes. The Raindrop
+Clarity dataset is subject to its own license and is not redistributed here.
